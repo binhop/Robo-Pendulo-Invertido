@@ -1,0 +1,190 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  dragForceScale 500
+  contactProperties [
+    ContactProperties {
+      material1 "rodas"
+      material2 "floor"
+      rollingFriction 0.04 0 0
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.14010338734016603 0.6922193333536929 0.7079572270887418 3.4357239283221768
+  position 0.9145909194644274 0.4394208835143378 -0.005545068381705737
+}
+TexturedBackground {
+  texture "factory"
+}
+TexturedBackgroundLight {
+}
+Floor {
+  rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931957
+  contactMaterial "floor"
+  size 1 1
+}
+WoodenBox {
+  translation -0.2923 0.05 -0.3406
+  rotation -0.7097163178753814 0.49814794395912665 0.4981479439591267 1.9071581323887112
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+  mass 1.2
+}
+DEF WALL_1 Solid {
+  translation 0.5 0.05 0
+  children [
+    DEF WALL_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.1 0.98
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_2 Solid {
+  translation -0.5 0.05 0
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(2)"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_2 Solid {
+  translation 6e-07 0.05 -0.48
+  rotation 0 1 0 1.5708
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(3)"
+  boundingObject USE WALL_SHAPE
+}
+DEF WALL_2 Solid {
+  translation 4.12612e-06 0.05 0.48
+  rotation 0 1 0 1.5708
+  children [
+    USE WALL_SHAPE
+  ]
+  name "solid(4)"
+  boundingObject USE WALL_SHAPE
+}
+DEF PENDULO Robot {
+  translation 0 0.059 0
+  rotation 1 0 0 0.723598
+  children [
+    Gyro {
+      translation 0.03 0.15 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+    }
+    DEF CORPO Transform {
+      translation 0 0.05 0
+      children [
+        DEF BODY Shape {
+          appearance PBRAppearance {
+            baseColor 0.592157 0.592157 0.592157
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.1 0.2 0.04
+          }
+        }
+      ]
+    }
+    Accelerometer {
+      translation -0.03 0.15 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.06 -0.04 0
+      }
+      device [
+        RotationalMotor {
+          name "motor2"
+        }
+      ]
+      endPoint Solid {
+        translation 0.05999999998649316 -0.039944509957025004 -1.799916111558653e-06
+        rotation 0.5708868179547844 -0.590064811839278 -0.5708868179547837 2.075425307179586
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              baseColor 0.0901961 0.0901961 0.0901961
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.03
+            }
+          }
+        ]
+        name "solid(1)"
+        contactMaterial "rodas"
+        boundingObject USE WHEEL
+        physics DEF WHEEL_PH Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.06 -0.04 0
+      }
+      device [
+        RotationalMotor {
+          name "motor1"
+        }
+      ]
+      endPoint Solid {
+        translation -0.060000000011920476 -0.03994451008568964 -1.8006911648989443e-06
+        rotation 0.5708851438647868 0.5900651486982065 0.5708881438655432 2.0754353071795855
+        children [
+          USE WHEEL
+        ]
+        contactMaterial "rodas"
+        boundingObject USE WHEEL
+        physics USE WHEEL_PH
+      }
+    }
+  ]
+  boundingObject USE CORPO
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0.01 0
+    ]
+  }
+  controller "PID_acc_gyro_c"
+  supervisor TRUE
+}
