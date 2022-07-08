@@ -147,7 +147,7 @@ float get_angle(WbDeviceTag accel, WbDeviceTag gyro, float angulo_antigo, bool f
   
   // Usar uma das duas fórmulas
   // Para o meu caso foi a segunda
-  //angulo_raw = atan(x/(sqrt(y*y + z*z))) * 180/M_PI;
+  //angulo_bruto = atan(x/(sqrt(y*y + z*z))) * 180/M_PI;
   angulo_bruto  = atan(y/(sqrt(x*x + z*z))) * 180.0/M_PI;
   
   // A primeira medição apenas retorna o ângulo medido direto
