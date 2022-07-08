@@ -46,7 +46,7 @@ def get_angle(angulo_antigo: float, first_read: bool = False) -> float:
     
     # Usar uma das duas fórmulas
     # Para o meu caso foi a segunda
-    #anguloRaw = atan(x/(sqrt(y**2 + z**2))) * 180/pi
+    #angulo_bruto = atan(x/(sqrt(y**2 + z**2))) * 180/pi
     angulo_bruto  = atan(y/(sqrt(x**2 + z**2))) * 180.0/pi
     
     # A primeira medição apenas retorna o ângulo medido direto
